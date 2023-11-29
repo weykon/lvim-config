@@ -2,6 +2,7 @@
 -- Video Tutorials: https://www.youtube.com/watch?v=sFA9kX-Ud_c&list=PLhoH5vyxr6QqGu0i7tt_XoVK9v-KvZ3m6
 -- Forum: https://www.reddit.com/r/lunarvim/
 -- Discord: https://discord.com/invite/Xb9B4Ny
+dofile("./variables.lua")
 vim.opt.cmdheight = 2             -- more space in the neovim command line for displaying messages
 vim.opt.guifont = "monospace:h17" -- the font used in graphical neovim applications
 vim.opt.shiftwidth = 4            -- the number of spaces inserted for each indentation
@@ -11,7 +12,7 @@ vim.opt.wrap = true               -- wrap lines
 lvim.transparent_window = true
 lvim.keys.normal_mode["<C-d>"] = "<C-d>zz"
 lvim.keys.normal_mode["<C-u>"] = "<C-u>zz"
-
+lvim.colorscheme = "morning"
 lvim.plugins = {
     {
         "windwp/nvim-ts-autotag",
@@ -19,7 +20,22 @@ lvim.plugins = {
             require("nvim-ts-autotag").setup()
         end,
     },
-    { 'ThePrimeagen/vim-be-good' }
+    { 'ThePrimeagen/vim-be-good' },
+    { 'lunarvim/colorschemes' },
+    { 'mg979/vim-visual-multi' },
+    {
+        -- ChatGPT
+        "jackMort/ChatGPT.nvim",
+        event = "VeryLazy",
+        config = function()
+            require("chatgpt").setup()
+        end,
+        dependencies = {
+            "MunifTanjim/nui.nvim",
+            "nvim-lua/plenary.nvim",
+            "nvim-telescope/telescope.nvim"
+        }
+    }
 }
 
 -- for Github Copilot
@@ -35,20 +51,22 @@ table.insert(lvim.plugins, {
     end,
 })
 
-
--- ChatGPT
--- use({
---   "jackMort/ChatGPT.nvim",
---     config = function()
---       require("chatgpt").setup()
---     end,
---     requires = {
---       "MunifTanjim/nui.nvim",
---       "nvim-lua/plenary.nvim",
---       "nvim-telescope/telescope.nvim"
---     }
--- })
-
+lvim.builtin.which_key.mappings["m"] = {
+  name = "ChatGPT",
+    c = { "<cmd>ChatGPT<CR>", "ChatGPT" },
+    e = { "<cmd>ChatGPTEditWithInstruction<CR>", "Edit with instruction", mode = { "n", "v" } },
+    g = { "<cmd>ChatGPTRun grammar_correction<CR>", "Grammar Correction", mode = { "n", "v" } },
+    t = { "<cmd>ChatGPTRun translate<CR>", "Translate", mode = { "n", "v" } },
+    k = { "<cmd>ChatGPTRun keywords<CR>", "Keywords", mode = { "n", "v" } },
+    d = { "<cmd>ChatGPTRun docstring<CR>", "Docstring", mode = { "n", "v" } },
+    a = { "<cmd>ChatGPTRun add_tests<CR>", "Add Tests", mode = { "n", "v" } },
+    o = { "<cmd>ChatGPTRun optimize_code<CR>", "Optimize Code", mode = { "n", "v" } },
+    s = { "<cmd>ChatGPTRun summarize<CR>", "Summarize", mode = { "n", "v" } },
+    f = { "<cmd>ChatGPTRun fix_bugs<CR>", "Fix Bugs", mode = { "n", "v" } },
+    x = { "<cmd>ChatGPTRun explain_code<CR>", "Explain Code", mode = { "n", "v" } },
+    r = { "<cmd>ChatGPTRun roxygen_edit<CR>", "Roxygen Edit", mode = { "n", "v" } },
+    l = { "<cmd>ChatGPTRun code_readability_analysis<CR>", "Code Readability Analysis", mode = { "n", "v" } },
+}
 
 -- Telescope new layout settings
 -- lvim.builtin.telescope.defaults.layout_config = {
